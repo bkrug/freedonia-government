@@ -1,4 +1,10 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using FreedoniaGovernment.Data;
 var builder = WebApplication.CreateBuilder(args);
+var connectionString = builder.Configuration.GetConnectionString("FreedoniaContext") ?? throw new InvalidOperationException("Connection string 'FreedoniaContext' not found.");
+builder.Services.AddDbContext<FreedoniaContext>(options =>
+    options.UseSqlite(connectionString));
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
